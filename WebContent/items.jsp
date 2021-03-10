@@ -38,8 +38,7 @@ if (String.valueOf(session.getAttribute("is_in_update_mode")) == ""
 
 // insert when click save button
 //update
-if (request.getParameter("itemCode") != null && (
-		 session.getAttribute("is_in_update_mode") != null)) {
+if (request.getParameter("itemCode") != null && (session.getAttribute("is_in_update_mode") != null)) {
 	Item itemObj = new Item();
 	String stsMsg = itemObj.updateItem(Integer.parseInt(String.valueOf(session.getAttribute("is_in_update_mode"))),
 	request.getParameter("itemCode"), request.getParameter("itemName"), request.getParameter("itemPrice"),
@@ -48,7 +47,7 @@ if (request.getParameter("itemCode") != null && (
 	itemName = "";
 	itemPrice = "";
 	itemDesc = "";
-//System.out.println("xxxxx");
+	//System.out.println("xxxxx");
 	session.setAttribute("is_in_update_mode", "");
 	session.setAttribute("statusMsg", stsMsg);
 } else if (request.getParameter("itemCode") != null) { //insert new
@@ -76,13 +75,18 @@ if (request.getParameter("itemID") != null) {
 <html>
 <head>
 <meta charset="ISO-8859-1">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<script type="js/jq.js"></script>
+<script type="js/bootstrap.js"></script>
 <title>Items Management</title>
 </head>
 <body>
 	<h1>Items Management</h1>
 	<h3>
 		<%
-		out.print(session.getAttribute("statusMsg"));
+		if (session.getAttribute("statusMsg") != null) {
+			out.print(session.getAttribute("statusMsg"));
+		}
 		%>
 	</h3>
 	<form method="post" action="items.jsp">
