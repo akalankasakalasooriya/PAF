@@ -38,7 +38,8 @@ if (String.valueOf(session.getAttribute("is_in_update_mode")) == ""
 
 // insert when click save button
 //update
-if (request.getParameter("itemCode") != null && (session.getAttribute("is_in_update_mode") != null)) {
+if (request.getParameter("itemCode") != null && (session.getAttribute("is_in_update_mode") != null)
+		&& !String.valueOf(session.getAttribute("is_in_update_mode")).equals("")) {
 	Item itemObj = new Item();
 	String stsMsg = itemObj.updateItem(Integer.parseInt(String.valueOf(session.getAttribute("is_in_update_mode"))),
 	request.getParameter("itemCode"), request.getParameter("itemName"), request.getParameter("itemPrice"),
@@ -61,7 +62,7 @@ if (request.getParameter("itemCode") != null && (session.getAttribute("is_in_upd
 //delete
 if (request.getParameter("itemID") != null) {
 	Item itemObj = new Item();
-	String stsMsg = itemObj.removeItem(Integer.parseInt(request.getParameter("itemID")));
+	String stsMsg = itemObj.deleteItem(Integer.parseInt(request.getParameter("itemID")));
 	session.setAttribute("statusMsg", stsMsg);
 	itemCode = "";
 	itemName = "";
@@ -81,35 +82,46 @@ if (request.getParameter("itemID") != null) {
 <title>Items Management</title>
 </head>
 <body>
-	<h1>Items Management</h1>
-	<h3>
-		<%
-		if (session.getAttribute("statusMsg") != null) {
-			out.print(session.getAttribute("statusMsg"));
-		}
-		%>
-	</h3>
-	<form method="post" action="items.jsp">
-		Item code: <input name="itemCode" value="<%out.print(itemCode);%>"
-			type="text"><br> Item name: <input name="itemName"
-			value="<%out.print(itemName);%>" type="text"><br> Item
-		price: <input name="itemPrice" value="<%out.print(itemPrice);%>"
-			type="text"><br> Item description: <input
-			name="itemDesc" value="<%out.print(itemDesc);%>" type="text"><br>
-		<input name="btnSubmit" type="submit" value="Save">
-	</form>
-	<br>
-	<p>
-		<i>!!to update item , first fill form and then click update button
-			you want to update!!</i>
-	</p>
-	<br>
-	<%
-	Item itemObj = new Item();
-	out.print(itemObj.readItems());
-	%>
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<h1>Items Management</h1>
+				<div class="alert alert-success">
+					<%
+					if (session.getAttribute("statusMsg") != null) {
+						out.print(session.getAttribute("statusMsg"));
+					}
+					%>
+				</div>
+				<form method="post" action="items.jsp">
+					<div class="form-group">
+						Item code: <input name="itemCode" class="form-control"
+							value="<%out.print(itemCode);%>" type="text"><br>
+						Item name: <input name="itemName" class="form-control"
+							value="<%out.print(itemName);%>" type="text"><br>
+						Item price: <input name="itemPrice"
+							value="<%out.print(itemPrice);%>" type="text"
+							class="form-control"><br> Item description: <input
+							name="itemDesc" class="form-control"
+							value="<%out.print(itemDesc);%>" type="text"><br> <input
+							name="btnSubmit" type="submit" value="Save"
+							class="btn btn-primary">
+					</div>
+				</form>
+				<br>
+				<button class="btn btn-dark">
+					<i>!! to update item , first click update button in table then
+						edit the form, finally click update button !!</i>
+				</button>
+				<br> <br>
+				<%
+				Item itemObj = new Item();
+				out.print(itemObj.readItems());
+				%>
 
 
-
+			</div>
+		</div>
+	</div>
 </body>
 </html>

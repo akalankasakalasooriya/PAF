@@ -63,7 +63,7 @@ public class Item {
 			}
 
 			// Prepare the html table to be displayed
-			output = "<table border='1'>" + "<tr><th>Item Code</th><th>Item Name</th><th>Item Price</th>"
+			output = "<table class='table' border='1'>" + "<tr><th>Item Code</th><th>Item Name</th><th>Item Price</th>"
 					+ "<th>Item Description</th><th>Update</th><th>Remove</th></tr>";
 
 			String query = "select * from items";
@@ -84,10 +84,10 @@ public class Item {
 				output += "<td>" + itemDesc + "</td>";
 				// buttons
 				output += "<td>" + "<form method='post' action='items.jsp'>"
-						+ "<input name='btnUpdate' type='submit' value='Update'></td>"
+						+ "<input name='btnUpdate' type='submit' value='Update' class='btn btn-success' ></td>"
 						+ "<input name='update_itemID' type='hidden' value='" + itemID + "'>" + "</form>" + "<td>"
 						+ "<form method='post' action='items.jsp'>"
-						+ "<input name='btnRemove' type='submit' value='Remove'>"
+						+ "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger' >"
 						+ "<input name='itemID' type='hidden' value='" + itemID + "'>" + "</form></td></tr>";
 			}
 
@@ -101,7 +101,7 @@ public class Item {
 
 	// delete
 
-	public String removeItem(int itemID) {
+	public String deleteItem(int itemID) {
 		String output = "";
 
 		try {
@@ -114,10 +114,11 @@ public class Item {
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setInt(1, itemID);
 			stmt.executeUpdate();
+			con.close();
 			output = "deleted!";
 
 		} catch (Exception e) {
-			output = "Error while updating the items.";
+			output = "Error while deleting the items.";
 			System.err.println(e.getMessage());
 		}
 
